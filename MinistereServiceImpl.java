@@ -1,13 +1,7 @@
 import java.io.FileOutputStream;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.BufferedWriter;
-import java.io.BufferedReader;
-import java.io.FileWriter;
-import java.io.FileReader;
+
 
 public class MinistereServiceImpl extends UnicastRemoteObject implements MinistereService {
 
