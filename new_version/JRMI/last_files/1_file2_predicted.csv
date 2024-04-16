@@ -1,0 +1,7 @@
+T1,T2,T3,bac_prediction
+T1_Excellent,T2_Bien,T3_Passable,BAC_Bien
+T1_Insuffisant,T2_Bien,T3_Assez bien,BAC_Bien
+T1_Bien,T2_Echec,T3_Tres bien,BAC_Tres bien
+T1_Passable,T2_Assez bien,T3_Passable,BAC_Assez bien
+T1_Assez bien,T2_Tres bien,T3_Passable,BAC_Tres bien
+T1_Echec,T2_Echec,T3_Passable,BAC_Passable
