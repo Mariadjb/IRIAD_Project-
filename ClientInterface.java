@@ -1,21 +1,22 @@
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
+import java.io.*;
 import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
-
 
 public class ClientInterface extends JFrame {
 
     private JTextField filePathField;
     private JComboBox<String> sendTypeComboBox;
     private JTextField clientIdField;
+    private JTextArea fileContentTextArea;
 
     public ClientInterface() {
         setTitle("Client Interface");
-        setSize(400, 200);
+        setSize(600, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JPanel mainPanel = new JPanel(new BorderLayout());
@@ -48,13 +49,21 @@ public class ClientInterface extends JFrame {
         inputPanel.add(sendTypePanel);
         inputPanel.add(clientIdPanel);
 
+        mainPanel.add(inputPanel, BorderLayout.NORTH);
+
+        fileContentTextArea = new JTextArea();
+        fileContentTextArea.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(fileContentTextArea);
+        mainPanel.add(scrollPane, BorderLayout.CENTER);
+
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JButton sendFilesButton = new JButton("Send Files");
         sendFilesButton.addActionListener(new SendFilesButtonListener());
         buttonPanel.add(sendFilesButton);
 
-        mainPanel.add(inputPanel, BorderLayout.CENTER);
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+        mainPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
         add(mainPanel);
         setVisible(true);
@@ -99,6 +108,12 @@ public class ClientInterface extends JFrame {
                         client.sendTrainingFile(filePath, fileName, clientId);
                     }
 
+                    // Display the file content after receiving
+                    System.out.println(clientId + "_files" + '/' + clientId+'_' + filePath);
+
+                    displayFileContent(clientId + "_files" + '/' + clientId+'_'+filePath);
+
+
                     JOptionPane.showMessageDialog(ClientInterface.this, "File sent successfully.");
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(ClientInterface.this, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -110,7 +125,22 @@ public class ClientInterface extends JFrame {
         }
     }
 
+    private void displayFileContent(String filePath) {
+        try {
+            StringBuilder content = new StringBuilder();
+            BufferedReader reader = new BufferedReader(new FileReader(filePath));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                content.append(line).append("\n");
+            }
+            reader.close();
+            fileContentTextArea.setText(content.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new ClientInterface());
+        SwingUtilities.invokeLater(ClientInterface::new);
     }
 }

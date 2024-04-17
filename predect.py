@@ -103,7 +103,7 @@ for index, student_row in student_df.iterrows():
 
 file_name = os.path.basename(csv_path)
 file_name_without_extension = file_name.split('.')[0]
-new_file_path = f"last_files/{file_name_without_extension}_predicted.csv"
+new_file_path = f"last_files/{file_name_without_extension}.csv"
 print(f"DataFrame saved to: {new_file_path}")
 students.to_csv(new_file_path, index=False)
 
