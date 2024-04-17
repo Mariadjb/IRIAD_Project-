@@ -47,10 +47,13 @@ classification = {
 
 # Function to assign category based on value
 def assign_category(value):
+    if isinstance(value, str):
+        return value  # Ignore non-numeric values
     for category, (lower, upper) in classification.items():
         if lower <= value <= upper:
             return category
     return None
+
 
 # Apply the function to each element in the DataFrame
 combined_df['T1'] = combined_df['T1'].apply(lambda x: assign_category(x))
