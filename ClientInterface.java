@@ -126,19 +126,25 @@ public class ClientInterface extends JFrame {
     }
 
     private void displayFileContent(String filePath) {
-        try {
-            StringBuilder content = new StringBuilder();
-            BufferedReader reader = new BufferedReader(new FileReader(filePath));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                content.append(line).append("\n");
+        File file = new File(filePath);
+        if (file.exists() && file.isFile()) {
+            try {
+                StringBuilder content = new StringBuilder();
+                BufferedReader reader = new BufferedReader(new FileReader(file));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    content.append(line).append("\n");
+                }
+                reader.close();
+                fileContentTextArea.setText(content.toString());
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            reader.close();
-            fileContentTextArea.setText(content.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
+        } else {
+            System.out.println("File does not exist: " + filePath);
         }
     }
+    
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(ClientInterface::new);
